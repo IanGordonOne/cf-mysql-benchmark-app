@@ -7,7 +7,7 @@ RUN apt-get -y update && \
     python \
     git
 
-RUN curl https://storage.googleapis.com/golang/go1.5.1.linux-amd64.tar.gz | tar xvz -C /usr/local/
+RUN curl https://storage.googleapis.com/golang/go1.17.8.linux-amd64.tar.gz | tar xvz -C /usr/local/
 
 # Add golang environment variables
 RUN mkdir -p /go/bin /go/pkg /go/src
@@ -20,6 +20,10 @@ ADD . \
 WORKDIR /go/src/github.com/cloudfoundry-incubator/cf-mysql-benchmark-app
 
 RUN go get github.com/tools/godep && godep restore
+
+RUN go mod init
+
+RUN go mod tidy
 
 RUN go build .
 
